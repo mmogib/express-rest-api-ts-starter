@@ -9,6 +9,7 @@ import {
   errorMiddleware,
   HttpException,
 } from './utils/error-handling';
+import jwtcheck from './auth/auth0';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,7 +24,7 @@ app.listen(port, () => {
   console.log(`Listening on port ${port} ...`);
 });
 
-app.use('/api', apiRouter);
+app.use('/api', jwtcheck, apiRouter);
 app.use('/', (_req, _res, next) => {
   next(new HttpException(404, 'not found'));
 });
